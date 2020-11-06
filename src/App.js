@@ -1,5 +1,9 @@
 import React from "react";
 import styled from 'styled-components';
+
+import ShoppingCart from './components/ShoppingCart'
+import CardProduto from './components/CardProduto'
+
 import sideral from "./img/sideral.jpg";
 import astronauta from "./img/astronauta.jpg";
 import astronautaballoon from "./img/astronautaballoon.jpg";
@@ -39,15 +43,6 @@ const QuantidadeProdutos = styled.div`
   flex-wrap: wrap;  
   `;
 
-const ProdutosVenda = styled.div`
-  border: 2px dashed black;
-  padding: 11px;
-  width: 200px;
-  height: 40vh;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-`;
 
 const ProdutosVenda2 = styled.div`
   padding: 1px;
@@ -60,153 +55,146 @@ const ProdutosVenda2 = styled.div`
   flex-wrap: wrap;
   `;
 
-const ImgCamiseta = styled.img`
-  width:100%;
-	height: 120px;
-  
-`;
-
-const ButtonAdicionar = styled.button`
-border:2px solid gray;
-border-radius:5px;
-display:inline-block;
-font-family:Verdana;
-font-weight:bold;
-font-size:13px;
-padding:5px 30px;
-text-decoration:none;
-cursor: pointer;
-position:relative;
-top:5px;
-`;
 
 
-const CaixaCarrinho = styled.div`
-  border: 2px solid black;
-  padding: 10px;
-  width: 250px;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  font-size: 22px;
-  background-color:#e4efe9
-`;
-
-const InputMinimo = styled.input`
+const InputFilter = styled.input`
 border: 1px solid gray;
 width: 150px;
-height: 25px
-`;
+height: 25px;
+margin: 10px 10px;
+`
+//lista de produtos
+const produtos = [
+  {
+    id: 1,
+    nome: 'Astronauta Balloon',
+    preco: 100,
+    imagem: astronautaballoon
+  }, {
+    id: 2,
+    nome: 'Astronauta Cat',
+    preco: 80,
+    imagem: cat
+  }, {
+    id: 3,
+    nome: 'Astronauta Espaço',
+    preco: 90,
+    imagem: astronauta
+  }, {
+    id: 4,
+    nome: 'Espaço Sideral',
+    preco: 85,
+    imagem: sideral
+  }, {
+    id: 5,
+    nome: 'Buraco Negro',
+    preco: 75,
+    imagem: buraconegro
+  }, {
+    id: 6,
+    nome: 'Camiseta Meteoro',
+    preco: 95,
+    imagem: meteoro
+  }, {
+    id: 7,
+    nome: 'Astronauta Woman',
+    preco: 120,
+    imagem: woman
+  }, {
+    id: 8,
+    nome: 'Camiseta Espacial',
+    preco: 85,
+    imagem: espaço
+  }
+]
+/* 
+modelo produto
+  {
+    id: ,
+    nome:,
+    preco:,
+    imagem:
+  }, 
+  */
 
-const InputMaximo = styled.input`
-border: 1px solid gray;
-width: 150px;
-height: 25px
-`;
-const InputNome = styled.input`
-border: 1px solid gray;
-width: 150px;
-height: 25px
-`;
+class App extends React.Component {
+  state = {
+    cart: []
+  }
+
+  removeDoCarrinho = (event) => {
+    const c = this.state.cart
+    c.splice(c.indexOf(Number(event.target.value)),1)    
+    this.setState({
+      cart: c
+    })
+  }
+
+  addCarrinho = (event) => {
+    const c = this.state.cart
+    c.push(Number(event.target.value))
+    this.setState({
+      cart: c
+    })
+  }
+
+  render() {
+    const cartList = produtos.filter(produto => {
+      return this.state.cart.indexOf(produto.id) != -1
+    })
+
+    return (
+
+      <ContainerPai className="App">
+
+        <CaixaFiltros classname="filtros">
+          <h3>Filtros:</h3>
+          <InputFilter
+            placeholder="Valor minimo">
+          </InputFilter>
+
+          <InputFilter
+            placeholder="Valor máximo">
+          </InputFilter>
+
+          <InputFilter
+            placeholder="Nome do produto">
+          </InputFilter>
+        </CaixaFiltros>
+
+        <QuantidadeProdutos className="produtos">
+
+          <p>
+            Quantidade de produtos: {produtos.length}
+            <select className="valor">
+              <option value="asc">Preço: Crescente</option>
+              <option value="desc">Preço: Decrescente</option>
+            </select>
+          </p>
 
 
 
-export default function App() {
-  return (
+          <ProdutosVenda2>
 
-    <ContainerPai className="App">
+            <CardProduto add={this.addCarrinho} dados={produtos[0]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[1]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[2]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[3]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[4]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[5]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[6]} />
+            <CardProduto add={this.addCarrinho} dados={produtos[7]} />
 
-    <CaixaFiltros classname="filtros">
-        <p>Filtros:</p>
-        <InputMinimo
-          placeholder="Valor minimo">
-        </InputMinimo>
-        <p></p>
-        <InputMaximo 
-          placeholder="Valor máximo">
-        </InputMaximo>
-        <p></p>
-        <InputNome
-          placeholder="Nome do produto">
-        </InputNome>
-      </CaixaFiltros>
 
-      <QuantidadeProdutos className="produtos">
 
-        <p>
-          Quantidade de produtos: 6
-          <select classname="valor">
-          <option value="asc">Preço: Crescente</option>
-          <option value="desc">Preço: Decrescente</option>
-          </select>
-        </p>
-        
-        <ProdutosVenda2>
+          </ProdutosVenda2>
+        </QuantidadeProdutos>
 
-        <ProdutosVenda>
-        <ImgCamiseta src={astronautaballoon}/>
-        Astronauta Balloon
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-       
-        <ProdutosVenda>
-        <ImgCamiseta src={cat}/>
-        Astronauta Cat
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
+        <ShoppingCart cart={cartList} remove={this.removeDoCarrinho} />
 
-        <ProdutosVenda>
-        <ImgCamiseta src={astronauta}/>
-        Astronauta Espaço
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-       
-        <ProdutosVenda>
-        <ImgCamiseta src={sideral}/>
-        Espaço Sideral
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-            
-        <ProdutosVenda>
-        <ImgCamiseta src={buraconegro}/>
-        Buraco Negro
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-       
-        <ProdutosVenda>
-        <ImgCamiseta src={meteoro}/>
-        Camiseta Meteoro
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-
-        <ProdutosVenda>
-        <ImgCamiseta src={woman}/>
-        Astronauta Woman
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-       
-        <ProdutosVenda>
-        <ImgCamiseta src={espaço}/>
-        Camiseta Espacial
-        <p>R$100,00</p>
-        <ButtonAdicionar> Adicionar ao carrinho</ButtonAdicionar>
-        </ProdutosVenda>
-       
-        </ProdutosVenda2>
-          
-      </QuantidadeProdutos>
-
-      <CaixaCarrinho className="carrinho">
-        <p>Carrinho:</p>
-        <p> Total: R$00,00</p>
-      </CaixaCarrinho>
-    </ContainerPai>
-  );
+      </ContainerPai>
+    );
+  }
 }
+
+export default App;
