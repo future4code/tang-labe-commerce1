@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 
+import Filters from "./components/Filters";
 import ShoppingCart from './components/ShoppingCart'
 import CardProduto from './components/CardProduto'
 
@@ -146,7 +147,7 @@ class App extends React.Component {
     return (
 
       <ContainerPai className="App">
-
+        <Filters />
         <CaixaFiltros classname="filtros">
           <h3>Filtros:</h3>
           <InputFilter
