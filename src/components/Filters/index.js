@@ -1,10 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Filters() {
-  const [valorMin, setValorMin] = useState(undefined);
-  const [valorMax, setValorMax] = useState(undefined);
-  const [buscarProd, setBuscarProd] = useState(undefined);
-
+function Filters({ aplicarFiltros }) {
   return (
     <>
       <div className="Filtros">
@@ -12,22 +8,25 @@ function Filters() {
         <div className="filtro">
           <label>Valor Minimo:</label>
           <input
+            name="valorMin"
             type="number"
-            onChange={(event) => setValorMin(event.target.value)}
+            onChange={(event) => aplicarFiltros(event)}
           />
         </div>
         <div className="filtro">
           <label>Valor Máximo:</label>
           <input
+            name="valorMax"
             type="number"
-            onChange={(event) => setValorMax(event.target.value)}
+            onChange={(event) => aplicarFiltros(event)}
           />
         </div>
         <div className="filtro">
           <label>Buscar Produto:</label>
           <input
+            name="buscarProd"
             type="text"
-            onChange={(event) => setBuscarProd(event.target.value)}
+            onChange={(event) => aplicarFiltros(event)}
           />
         </div>
       </div>
