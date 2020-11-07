@@ -1,20 +1,18 @@
 import React from "react";
-import styled from 'styled-components';
+import styled, { ThemeProvider } from "styled-components";
 
 import Filters from "./components/Filters";
-import ShoppingCart from './components/ShoppingCart'
-import CardProduto from './components/CardProduto'
+import ShoppingCart from "./components/ShoppingCart";
+import CardProduto from "./components/CardProduto";
 
 import sideral from "./img/sideral.jpg";
 import astronauta from "./img/astronauta.jpg";
 import astronautaballoon from "./img/astronautaballoon.jpg";
 import cat from "./img/cat.jpg";
-import espaço from "./img/espaço.jpg"
+import espaço from "./img/espaço.jpg";
 import buraconegro from "./img/buraconegro.jpg";
 import meteoro from "./img/meteoro.jpg";
 import woman from "./img/woman.jpg";
-
-
 
 const ContainerPai = styled.div`
   display: flex;
@@ -30,7 +28,7 @@ const CaixaFiltros = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 22px;
-  background-color:#e4efe9;
+  background-color: #e4efe9;
 `;
 
 const QuantidadeProdutos = styled.div`
@@ -41,9 +39,8 @@ const QuantidadeProdutos = styled.div`
   height: 80vh;
   display: grid;
   font-size: 22px;
-  flex-wrap: wrap;  
-  `;
-
+  flex-wrap: wrap;
+`;
 
 const ProdutosVenda2 = styled.div`
   padding: 1px;
@@ -54,60 +51,65 @@ const ProdutosVenda2 = styled.div`
   display: flex;
   font-size: 20px;
   flex-wrap: wrap;
-  `;
-
-
+`;
 
 const InputFilter = styled.input`
-border: 1px solid gray;
-width: 150px;
-height: 25px;
-margin: 10px 10px;
-`
+  border: 1px solid gray;
+  width: 150px;
+  height: 25px;
+  margin: 10px 10px;
+`;
 //lista de produtos
 const produtos = [
   {
     id: 1,
-    nome: 'Astronauta Balloon',
+    nome: "Astronauta Balloon",
     preco: 100,
-    imagem: astronautaballoon
-  }, {
+    imagem: astronautaballoon,
+  },
+  {
     id: 2,
-    nome: 'Astronauta Cat',
+    nome: "Astronauta Cat",
     preco: 80,
-    imagem: cat
-  }, {
+    imagem: cat,
+  },
+  {
     id: 3,
-    nome: 'Astronauta Espaço',
+    nome: "Astronauta Espaço",
     preco: 90,
-    imagem: astronauta
-  }, {
+    imagem: astronauta,
+  },
+  {
     id: 4,
-    nome: 'Espaço Sideral',
+    nome: "Espaço Sideral",
     preco: 85,
-    imagem: sideral
-  }, {
+    imagem: sideral,
+  },
+  {
     id: 5,
-    nome: 'Buraco Negro',
+    nome: "Buraco Negro",
     preco: 75,
-    imagem: buraconegro
-  }, {
+    imagem: buraconegro,
+  },
+  {
     id: 6,
-    nome: 'Camiseta Meteoro',
+    nome: "Camiseta Meteoro",
     preco: 95,
-    imagem: meteoro
-  }, {
+    imagem: meteoro,
+  },
+  {
     id: 7,
-    nome: 'Astronauta Woman',
+    nome: "Astronauta Woman",
     preco: 120,
-    imagem: woman
-  }, {
+    imagem: woman,
+  },
+  {
     id: 8,
-    nome: 'Camiseta Espacial',
+    nome: "Camiseta Espacial",
     preco: 85,
-    imagem: espaço
-  }
-]
+    imagem: espaço,
+  },
+];
 /* 
 modelo produto
   {
@@ -120,51 +122,50 @@ modelo produto
 
 class App extends React.Component {
   state = {
-    cart: []
-  }
+    cart: [],
+    filtros: {
+      valorMin: null,
+      valorMax: null,
+      buscarProd: null,
+    },
+  };
 
   removeDoCarrinho = (event) => {
-    const c = this.state.cart
-    c.splice(c.indexOf(Number(event.target.value)),1)    
+    const c = this.state.cart;
+    c.splice(c.indexOf(Number(event.target.value)), 1);
     this.setState({
-      cart: c
-    })
-  }
+      cart: c,
+    });
+  };
 
   addCarrinho = (event) => {
-    const c = this.state.cart
-    c.push(Number(event.target.value))
+    const c = this.state.cart;
+    c.push(Number(event.target.value));
     this.setState({
-      cart: c
-    })
-  }
+      cart: c,
+    });
+  };
+
+  aplicarFiltros = (event) => {
+    this.setState({
+      ...this.state,
+      filtros: {
+        ...this.state.filtros,
+        [event.target.name]: event.target.value,
+      },
+    });
+  };
 
   render() {
-    const cartList = produtos.filter(produto => {
-      return this.state.cart.indexOf(produto.id) != -1
-    })
+    const cartList = produtos.filter((produto) => {
+      return this.state.cart.indexOf(produto.id) != -1;
+    });
 
     return (
-
       <ContainerPai className="App">
-        <Filters />
-        <CaixaFiltros classname="filtros">
-          <h3>Filtros:</h3>
-          <InputFilter
-            placeholder="Valor minimo">
-          </InputFilter>
-
-          <InputFilter
-            placeholder="Valor máximo">
-          </InputFilter>
-
-          <InputFilter
-            placeholder="Nome do produto">
-          </InputFilter>
-        </CaixaFiltros>
+        <Filters aplicarFiltros={this.aplicarFiltros.bind()} />
 
         <QuantidadeProdutos className="produtos">
-
           <p>
             Quantidade de produtos: {produtos.length}
             <select className="valor">
@@ -173,26 +174,37 @@ class App extends React.Component {
             </select>
           </p>
 
-
-
           <ProdutosVenda2>
+            {produtos
+              .filter((produto) => {
+                const filtroValorMinAplicado = (produto) =>
+                  !this.state.filtros.valorMin ||
+                  this.state.filtros.valorMin <= produto.preco;
 
-            <CardProduto add={this.addCarrinho} dados={produtos[0]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[1]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[2]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[3]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[4]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[5]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[6]} />
-            <CardProduto add={this.addCarrinho} dados={produtos[7]} />
+                const filtroValorMaxAplicado = (produto) =>
+                  !this.state.filtros.valorMax ||
+                  this.state.filtros.valorMax >= produto.preco;
 
+                const filtroBuscarProdAplicado = (produto) =>
+                  !this.state.filtros.buscarProd ||
+                  produto.nome
+                    .toLowerCase()
+                    .includes(this.state.filtros.buscarProd.toLowerCase());
 
+                return (
+                  filtroValorMinAplicado(produto) &&
+                  filtroValorMaxAplicado(produto) &&
+                  filtroBuscarProdAplicado(produto)
+                );
+              })
 
+              .map((produto) => (
+                <CardProduto add={this.addCarrinho} dados={produto} />
+              ))}
           </ProdutosVenda2>
         </QuantidadeProdutos>
 
         <ShoppingCart cart={cartList} remove={this.removeDoCarrinho} />
-
       </ContainerPai>
     );
   }
