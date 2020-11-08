@@ -9,13 +9,15 @@ const CaixaCarrinho = styled.div`
   display: flex;
   flex-direction: column;
   font-size: 22px;
-  background-color:#e4efe9;
+  background-color:white;
+  color: black;
 `
 
 const ProductContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
+    height: 50px;
 `
 const PNome = styled.p`
     width: 70%;

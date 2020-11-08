@@ -16,30 +16,25 @@ import woman from "./img/woman.jpg";
 
 const ContainerPai = styled.div`
   display: flex;
-  padding-left: 30px;
-  padding-right: 30px;
-`;
-
-const CaixaFiltros = styled.div`
-  border: 2px solid black;
-  padding: 10px;
-  width: 200px;
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  font-size: 22px;
-  background-color: #e4efe9;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  background-color: black;
+  height: 100%;
+  color: whitesmoke;
 `;
 
 const QuantidadeProdutos = styled.div`
-  padding: 1px;
+  padding: 5px;
   margin: 1px;
   text-align: center;
   width: 100%;
-  height: 80vh;
+  height: 100%;
   display: grid;
   font-size: 22px;
+  color: white;
   flex-wrap: wrap;
+  background-color: black;
 `;
 
 const ProdutosVenda2 = styled.div`
@@ -47,7 +42,7 @@ const ProdutosVenda2 = styled.div`
   margin: 0px;
   text-align: center;
   width: 100%;
-  height: 90vh;
+  height: 125vh;
   display: flex;
   font-size: 20px;
   flex-wrap: wrap;

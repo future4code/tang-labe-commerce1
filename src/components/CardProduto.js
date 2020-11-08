@@ -3,16 +3,16 @@ import styled from 'styled-components';
 
 
 const Produto = styled.div`
-  border: 2px dashed black;
+  border: 20px dashed black;
   padding: 10px;
-  margin: 5px;
-  width: 200px;
-  height: 380px;
+  margin: 1px;
+  width: 150px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
 `;
-
 
 const ImgCamiseta = styled.img`
   width:100%;  
